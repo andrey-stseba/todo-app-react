@@ -1,48 +1,34 @@
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import { Field, Form, Formik } from 'formik';
 import React, { useState, useEffect } from 'react';
-import { INPUT_SCHEMA } from '../../utils/validatingSchemas';
-
-const taskcDB = [
-  {
-    id: Date.now(),
-    body: 'First task',
-    isDone: false,
-  },
-];
+import TaskListItem from '../../components/TaskListItem';
+import TodoList from '../../components/TodoList';
+import s from './TodoPage.module.scss';
 
 function TodoPage () {
-  const [tasks, setTasks] = useState(taskcDB);
-  const addTask = (values, formikBag) => {
-    const newTask = {
+  const taskcDB = [
+    {
       id: Date.now(),
-      body: values.body,
+      body: 'example task',
       isDone: false,
-    };
-    setTasks([...tasks, newTask]);
+    },
+  ];
+  const [tasks, setTasks] = useState(taskcDB);
+  const [counter, setCounter] = useState(tasks.length);
+
+  const getCounter = () => {
+    setCounter(tasks.length);
   };
+  useEffect(() => {
+    getCounter();
+  }, [tasks.length]);
+
   return (
-    <div>
-      <Formik
-        initialValues={{ body: '' }}
-        onSubmit={addTask}
-        validationSchema={INPUT_SCHEMA}
-      >
-        {formikProps => (
-          <Form>
-            <Field name='body' placeholder='Enter todo here' />
-            <button type='submit'>Add Task</button>
-          </Form>
-        )}
-      </Formik>
-      <ul>
-        {tasks.map(t => (
-          <>
-            <li key={t.id}>{JSON.stringify(t.body)}</li>
-            <DeleteOutlineIcon />
-          </>
-        ))}
-      </ul>
+    <div className={s.containerTodoPage}>
+      <div className={s.containerHeader}>
+        <h3>Todos({counter})</h3>
+      </div>
+
+      <TodoList tasks={tasks} setTasks={setTasks} />
+      <TaskListItem tasks={tasks} setTasks={setTasks} />
     </div>
   );
 }

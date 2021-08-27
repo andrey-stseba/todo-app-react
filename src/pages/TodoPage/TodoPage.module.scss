@@ -8,3 +8,22 @@
 :root {
   font-size: 16px;
 }
+
+.containerTodoPage {
+  @extend %containerPage;
+  border: $borderList;
+  width: 50%;
+  margin: 20px auto;
+}
+.containerHeader {
+  align-self: flex-start;
+  width: 100%;
+  padding: 5px 10px;
+  border-bottom: $borderList;
+  background: $backgroundItem;
+  margin-bottom: 10px;
+  h3 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+}
